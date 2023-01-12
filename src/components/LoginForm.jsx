@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { addEmail } from '../redux/actions';
 
 class LoginForm extends Component {
   constructor() {
@@ -10,6 +12,19 @@ class LoginForm extends Component {
       loginEmail: '',
       loginName: '',
     };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit() {
+    const { dispatch } = this.props;
+    const { loginEmail, loginName } = this.state;
+    dispatch(addEmail(loginEmail, loginName));
+    this.setState({
+      loginName: '',
+      loginEmail: '',
+    });
   }
 
   handleChange = ({ target: { name, value } }) => {
@@ -25,7 +40,7 @@ class LoginForm extends Component {
   };
 
   render() {
-    const { botaoDisable } = this.state;
+    const { botaoDisable, loginEmail, loginName } = this.state;
     return (
       <div>
         Login
@@ -37,6 +52,7 @@ class LoginForm extends Component {
               id="loginName"
               name="loginName"
               onChange={ this.handleChange }
+              value={ loginName }
             />
           </label>
 
@@ -47,6 +63,7 @@ class LoginForm extends Component {
               id="loginEmail"
               name="loginEmail"
               onChange={ this.handleChange }
+              value={ loginEmail }
             />
           </label>
 
@@ -54,6 +71,7 @@ class LoginForm extends Component {
             type="button"
             data-testid="btn-play"
             disabled={ botaoDisable }
+            onClick={ this.handleSubmit }
           >
             Play
           </button>
@@ -62,5 +80,9 @@ class LoginForm extends Component {
     );
   }
 }
+
+LoginForm.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+};
 
 export default connect()(LoginForm);
