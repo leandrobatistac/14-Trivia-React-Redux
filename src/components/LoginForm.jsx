@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import getToken from '../fetchAPI';
+import { getToken } from '../fetchAPI';
 import { sendToken } from '../redux/actions';
 
 class LoginForm extends Component {
