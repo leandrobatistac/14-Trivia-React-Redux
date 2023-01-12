@@ -1,14 +1,8 @@
 import { combineReducers } from 'redux';
+import token from './token';
 
-const INITIAL_STATE = {};
-
-const exampleReducer = (state = INITIAL_STATE, action) => {
-  switch (action.type) {
-  default:
-    return state;
-  }
-};
-
-const rootReducer = combineReducers({ exampleReducer });
+const rootReducer = combineReducers({
+  token,
+});
 
 export default rootReducer;
