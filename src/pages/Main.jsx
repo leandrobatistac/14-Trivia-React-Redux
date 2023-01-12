@@ -1,10 +1,11 @@
 import React from 'react';
+import Game from './Game';
 
 class Login extends React.Component {
   render() {
     return (
       <div>
-        Main
+        <Game />
       </div>
     );
   }
