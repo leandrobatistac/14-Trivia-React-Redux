@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import LoginForm from '../components/LoginForm';
+
 import logo from '../trivia.png';
 
 class Login extends React.Component {

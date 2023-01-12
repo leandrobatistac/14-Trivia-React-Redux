@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { getToken } from '../fetchAPI';
 import { sendToken } from '../redux/actions';
+import { addEmail, sendToken } from '../redux/actions';
+import getToken from '../fetchAPI';
 
 class LoginForm extends Component {
   constructor() {
@@ -14,6 +16,13 @@ class LoginForm extends Component {
       loginEmail: '',
       loginName: '',
     };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit() {
+
   }
 
   handleChange = ({ target: { name, value } }) => {
@@ -30,14 +39,19 @@ class LoginForm extends Component {
 
   handleButton = async () => {
     const { dispatch } = this.props;
+    const { loginEmail, loginName } = this.state;
+    dispatch(addEmail(loginEmail, loginName));
+    this.setState({
+      loginName: ' ',
+      loginEmail: '',
+    });
     const objectToken = await getToken();
     localStorage.setItem('token', objectToken.token);
     dispatch(sendToken(objectToken.token));
   };
 
   render() {
-    const { botaoDisable } = this.state;
-
+    const { botaoDisable, loginEmail, loginName } = this.state;
     return (
       <div>
         Login
@@ -49,6 +63,7 @@ class LoginForm extends Component {
               id="loginName"
               name="loginName"
               onChange={ this.handleChange }
+              value={ loginName }
             />
           </label>
 
@@ -59,6 +74,7 @@ class LoginForm extends Component {
               id="loginEmail"
               name="loginEmail"
               onChange={ this.handleChange }
+              value={ loginEmail }
             />
           </label>
 
