@@ -40,7 +40,7 @@ class LoginForm extends Component {
     const { loginEmail, loginName } = this.state;
     dispatch(addEmail(loginEmail, loginName));
     this.setState({
-      loginName: '',
+      loginName: ' ',
       loginEmail: '',
     });
     const objectToken = await getToken();
