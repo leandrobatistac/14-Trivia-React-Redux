@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { addEmail } from '../redux/actions';
+import { Link } from 'react-router-dom';
+import getToken from '../fetchAPI';
+import { sendToken } from '../redux/actions';
 
 class LoginForm extends Component {
   constructor() {
@@ -18,13 +21,7 @@ class LoginForm extends Component {
   }
 
   handleSubmit() {
-    const { dispatch } = this.props;
-    const { loginEmail, loginName } = this.state;
-    dispatch(addEmail(loginEmail, loginName));
-    this.setState({
-      loginName: '',
-      loginEmail: '',
-    });
+
   }
 
   handleChange = ({ target: { name, value } }) => {
@@ -37,6 +34,19 @@ class LoginForm extends Component {
         this.setState({ botaoDisable: true });
       }
     });
+  };
+
+  handleButton = async () => {
+    const { dispatch } = this.props;
+    const { loginEmail, loginName } = this.state;
+    dispatch(addEmail(loginEmail, loginName));
+    this.setState({
+      loginName: '',
+      loginEmail: '',
+    });
+    const objectToken = await getToken();
+    localStorage.setItem('token', objectToken.token);
+    dispatch(sendToken(objectToken.token));
   };
 
   render() {
@@ -67,14 +77,16 @@ class LoginForm extends Component {
             />
           </label>
 
-          <button
-            type="button"
-            data-testid="btn-play"
-            disabled={ botaoDisable }
-            onClick={ this.handleSubmit }
-          >
-            Play
-          </button>
+          <Link to="/main">
+            <button
+              type="button"
+              data-testid="btn-play"
+              disabled={ botaoDisable }
+              onClick={ this.handleButton }
+            >
+              Play
+            </button>
+          </Link>
         </form>
       </div>
     );

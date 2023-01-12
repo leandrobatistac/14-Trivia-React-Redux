@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import token from './token';
 
 const INITIAL_STATE = {
   email: '',
@@ -19,6 +20,7 @@ const user = (state = INITIAL_STATE, action) => {
 
 const rootReducer = combineReducers({
   email: user,
+  token,
 });
 
 export default rootReducer;
