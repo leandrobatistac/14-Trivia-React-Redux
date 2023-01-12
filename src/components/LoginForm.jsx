@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addEmail } from '../redux/actions';
+import { addEmail, sendToken } from '../redux/actions';
 import { Link } from 'react-router-dom';
 import getToken from '../fetchAPI';
-import { sendToken } from '../redux/actions';
 
 class LoginForm extends Component {
   constructor() {
