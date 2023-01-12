@@ -1,4 +1,3 @@
-
 export const addEmail = (email, nome) => ({
   type: 'ADD_EMAIL',
   email,
