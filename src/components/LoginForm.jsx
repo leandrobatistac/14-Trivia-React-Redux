@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import getToken from '../fetchAPI';
+import { sendToken } from '../redux/actions';
 
 class LoginForm extends Component {
   constructor() {
@@ -24,8 +28,16 @@ class LoginForm extends Component {
     });
   };
 
+  handleButton = async () => {
+    const { dispatch } = this.props;
+    const objectToken = await getToken();
+    localStorage.setItem('token', objectToken.token);
+    dispatch(sendToken(objectToken.token));
+  };
+
   render() {
     const { botaoDisable } = this.state;
+
     return (
       <div>
         Login
@@ -50,17 +62,24 @@ class LoginForm extends Component {
             />
           </label>
 
-          <button
-            type="button"
-            data-testid="btn-play"
-            disabled={ botaoDisable }
-          >
-            Play
-          </button>
+          <Link to="/main">
+            <button
+              type="button"
+              data-testid="btn-play"
+              disabled={ botaoDisable }
+              onClick={ this.handleButton }
+            >
+              Play
+            </button>
+          </Link>
         </form>
       </div>
     );
   }
 }
+
+LoginForm.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+};
 
 export default connect()(LoginForm);
