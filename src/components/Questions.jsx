@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getQuestions } from '../fetchAPI';
+import Timer from './Timer';
 import '../questions.css';
 
 const NUMBER_THREE = 3;
@@ -11,6 +12,8 @@ class Questions extends React.Component {
     questionsObject: {},
     index: 0,
     answerArray: [],
+    buttonDisabled: false,
+    seconds: 30,
   };
 
   async componentDidMount() {
@@ -20,7 +23,27 @@ class Questions extends React.Component {
       history.push('/');
       localStorage.setItem('token', '');
     }
+    this.setSeconds();
   }
+
+  componentWillUnmount() {
+    clearInterval(this.gameTimerInterval);
+  }
+
+  setSeconds = () => {
+    const timerInterval = 1000;
+    this.gameTimerInterval = setInterval(() => {
+      const { seconds } = this.state;
+      if (seconds > 0) {
+        this.setState((prevState) => ({
+          seconds: prevState.seconds - 1,
+        }));
+      }
+      if (seconds === 0) {
+        clearInterval(this.gameTimerInterval);
+      }
+    }, timerInterval);
+  };
 
   questionsAPI = async () => {
     const token = localStorage.getItem('token');
@@ -57,11 +80,22 @@ class Questions extends React.Component {
     return array;
   };
 
+  random = () => {
+    const { answerArray } = this.state;
+    return this.shuffleArray(answerArray);
+  };
+
   render() {
-    const { questionsObject, index, answerArray } = this.state;
-    this.shuffleArray(answerArray);
+    const { questionsObject, index, answerArray, buttonDisabled, seconds } = this.state;
+    this.random();
+    const logic = () => {if (seconds === 0) {
+      this.setState({
+        buttonDisabled: true,
+      });
+    }}
     return (
       <div>
+        <Timer seconds={ seconds } />
         { !questionsObject.length > 0 ? '...Carregando'
           : (
             <div>
@@ -85,6 +119,7 @@ class Questions extends React.Component {
                       (e === questionsObject[index].correct_answer)
                         ? 'correct-answer' : 'wrong-answer'
                     }
+                    disabled={ buttonDisabled }
                   >
                     { e }
                   </button>
@@ -100,6 +135,7 @@ class Questions extends React.Component {
 
 const mapStateToProps = (state) => ({
   responseCode: state.token.response,
+  seconds: state.timer,
 });
 
 Questions.propTypes = {
