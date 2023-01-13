@@ -1,6 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { getQuestions } from '../fetchAPI';
+
+const NUMBER_THREE = 3;
 
 class Questions extends React.Component {
   state = {
@@ -10,12 +13,12 @@ class Questions extends React.Component {
   };
 
   async componentDidMount() {
-    // const { responseCode, history } = this.props;
     await this.questionsAPI();
-    // if (responseCode === 3) {
-    //   history.push('/');
-    //   localStorage.setItem('token', '');
-    // }
+    const { responseCode, history } = this.props;
+    if (responseCode === NUMBER_THREE) {
+      history.push('/');
+      localStorage.setItem('token', '');
+    }
   }
 
   questionsAPI = async () => {
@@ -71,6 +74,10 @@ class Questions extends React.Component {
                       (e === questionsObject[index].correct_answer)
                         ? 'correct-answer' : `wrong-answer-${index2}`
                     }
+                    className={
+                      (e === questionsObject[index].correct_answer)
+                        ? 'correct-answer' : `wrong-answer-${index2}`
+                    }
                   >
                     { e }
                   </button>
@@ -87,5 +94,12 @@ class Questions extends React.Component {
 const mapStateToProps = (state) => ({
   responseCode: state.token.response,
 });
+
+Questions.propTypes = {
+  responseCode: PropTypes.number.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
 export default connect(mapStateToProps)(Questions);

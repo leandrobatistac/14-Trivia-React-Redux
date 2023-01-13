@@ -2,6 +2,7 @@ import { TOKEN_ID } from '../actions';
 
 const INITIAL_STATE = {
   token: '',
+  response: '',
 };
 
 function token(state = INITIAL_STATE, action) {

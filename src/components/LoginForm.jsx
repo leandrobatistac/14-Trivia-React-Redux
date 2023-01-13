@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { getToken } from '../fetchAPI';
 import { addEmail, sendToken } from '../redux/actions';
 
@@ -16,6 +15,7 @@ class LoginForm extends Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleButton = this.handleButton.bind(this);
   }
 
   handleChange = ({ target: { name, value } }) => {
@@ -31,17 +31,17 @@ class LoginForm extends Component {
   };
 
   handleButton = async () => {
-    const { dispatch } = this.props;
+    const { dispatch, history } = this.props;
     const { loginEmail, loginName } = this.state;
+    const objectToken = await getToken();
     dispatch(addEmail(loginEmail, loginName));
     this.setState({
       loginName: ' ',
       loginEmail: '',
     });
-    const objectToken = await getToken();
-    console.log(objectToken);
     localStorage.setItem('token', objectToken.token);
     dispatch(sendToken(objectToken.token, objectToken.response_code));
+    history.push('/main');
   };
 
   render() {
@@ -71,17 +71,14 @@ class LoginForm extends Component {
               value={ loginEmail }
             />
           </label>
-
-          <Link to="/main">
-            <button
-              type="button"
-              data-testid="btn-play"
-              disabled={ botaoDisable }
-              onClick={ this.handleButton }
-            >
-              Play
-            </button>
-          </Link>
+          <button
+            type="button"
+            data-testid="btn-play"
+            disabled={ botaoDisable }
+            onClick={ this.handleButton }
+          >
+            Play
+          </button>
         </form>
       </div>
     );
@@ -90,6 +87,9 @@ class LoginForm extends Component {
 
 LoginForm.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default connect()(LoginForm);

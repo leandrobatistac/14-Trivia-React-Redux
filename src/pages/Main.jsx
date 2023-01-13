@@ -1,16 +1,24 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Questions from '../components/Questions';
 import Game from './Game';
 
-class Login extends React.Component {
+class Main extends React.Component {
   render() {
+    const { history } = this.props;
     return (
       <div>
         <Game />
-        <Questions />
+        <Questions history={ history } />
       </div>
     );
   }
 }
 
-export default Login;
+Main.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+export default Main;

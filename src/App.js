@@ -12,7 +12,7 @@ export default function App() {
         <Switch>
           <Route exact path="/" component={ Login } />
           <Route exact path="/main" component={ Main } />
-          <Route path="/configuration" component={ Configuration } />
+          <Route exact path="/configuration" component={ Configuration } />
         </Switch>
       </header>
     </div>
