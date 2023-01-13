@@ -3,9 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { getToken } from '../fetchAPI';
-import { sendToken } from '../redux/actions';
 import { addEmail, sendToken } from '../redux/actions';
-import getToken from '../fetchAPI';
 
 class LoginForm extends Component {
   constructor() {
@@ -18,11 +16,6 @@ class LoginForm extends Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleSubmit() {
-
   }
 
   handleChange = ({ target: { name, value } }) => {
@@ -46,8 +39,9 @@ class LoginForm extends Component {
       loginEmail: '',
     });
     const objectToken = await getToken();
+    console.log(objectToken);
     localStorage.setItem('token', objectToken.token);
-    dispatch(sendToken(objectToken.token));
+    dispatch(sendToken(objectToken.token, objectToken.response_code));
   };
 
   render() {

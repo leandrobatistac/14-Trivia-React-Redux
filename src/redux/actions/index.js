@@ -10,9 +10,10 @@ export const TOKEN_ID = 'TOKEN_ID';
 
 // Action Creator
 
-export const sendToken = (token) => ({
+export const sendToken = (token, response) => ({
   type: TOKEN_ID,
   payload: {
     token,
+    response,
   },
 });

@@ -10,7 +10,12 @@ class Questions extends React.Component {
   };
 
   async componentDidMount() {
+    // const { responseCode, history } = this.props;
     await this.questionsAPI();
+    // if (responseCode === 3) {
+    //   history.push('/');
+    //   localStorage.setItem('token', '');
+    // }
   }
 
   questionsAPI = async () => {
@@ -34,8 +39,17 @@ class Questions extends React.Component {
     this.setState({ index: novoIndex });
   };
 
+  shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  };
+
   render() {
     const { questionsObject, index, answerArray } = this.state;
+    this.shuffleArray(answerArray);
     return (
       <div>
         { !questionsObject.length > 0 ? '...Carregando'
@@ -70,4 +84,8 @@ class Questions extends React.Component {
   }
 }
 
-export default connect()(Questions);
+const mapStateToProps = (state) => ({
+  responseCode: state.token.response,
+});
+
+export default connect(mapStateToProps)(Questions);

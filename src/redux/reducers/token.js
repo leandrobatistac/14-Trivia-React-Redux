@@ -9,7 +9,8 @@ function token(state = INITIAL_STATE, action) {
   case TOKEN_ID: {
     return {
       ...state,
-      token: action.payload,
+      token: action.payload.token,
+      response: action.payload.response,
     };
   }
   default: return state;
