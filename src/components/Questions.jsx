@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getQuestions } from '../fetchAPI';
+import '../questions.css';
 
 const NUMBER_THREE = 3;
 
@@ -82,7 +83,7 @@ class Questions extends React.Component {
                     }
                     className={
                       (e === questionsObject[index].correct_answer)
-                        ? 'correct-answer' : `wrong-answer-${index2}`
+                        ? 'correct-answer' : 'wrong-answer'
                     }
                   >
                     { e }
