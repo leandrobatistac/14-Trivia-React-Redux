@@ -2,6 +2,7 @@ import { TOKEN_ID } from '../actions';
 
 const INITIAL_STATE = {
   token: '',
+  response: '',
 };
 
 function token(state = INITIAL_STATE, action) {
@@ -9,7 +10,7 @@ function token(state = INITIAL_STATE, action) {
   case TOKEN_ID: {
     return {
       ...state,
-      token: action.payload,
+      token: action.payload.token,
     };
   }
   default: return state;

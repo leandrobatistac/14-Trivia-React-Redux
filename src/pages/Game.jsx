@@ -7,7 +7,6 @@ class Game extends Component {
   render() {
     const { email, nome, placar } = this.props;
     const emailConverted = md5(email).toString();
-    console.log(nome);
     return (
       <header>
         <h1 data-testid="header-player-name">{ nome }</h1>

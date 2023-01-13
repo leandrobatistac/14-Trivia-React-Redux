@@ -1,7 +1,11 @@
-const getToken = async () => {
+export const getToken = async () => {
   const response = await fetch('https://opentdb.com/api_token.php?command=request');
   const token = await response.json();
   return token;
 };
 
-export default getToken;
+export const getQuestions = async (token) => {
+  const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
+  const questions = await response.json();
+  return questions;
+};
