@@ -40,7 +40,7 @@ class LoginForm extends Component {
       loginEmail: '',
     });
     localStorage.setItem('token', objectToken.token);
-    dispatch(sendToken(objectToken.token, objectToken.response_code));
+    dispatch(sendToken(objectToken.token));
     history.push('/main');
   };
 

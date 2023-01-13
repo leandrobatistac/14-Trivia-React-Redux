@@ -24,12 +24,18 @@ class Questions extends React.Component {
   questionsAPI = async () => {
     const token = localStorage.getItem('token');
     const questions = await getQuestions(token);
-    const { index } = this.state;
-    this.setState({
-      questionsObject: questions.results,
-      answerArray: [...questions.results[index].incorrect_answers,
-        questions.results[index].correct_answer],
-    });
+    if (questions.response_code !== 0) {
+      const { history } = this.props;
+      localStorage.clear();
+      history.push('/');
+    } else {
+      const { index } = this.state;
+      this.setState({
+        questionsObject: questions.results,
+        answerArray: [...questions.results[index].incorrect_answers,
+          questions.results[index].correct_answer],
+      });
+    }
   };
 
   handleButton = () => {

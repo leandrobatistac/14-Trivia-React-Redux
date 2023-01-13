@@ -11,7 +11,6 @@ function token(state = INITIAL_STATE, action) {
     return {
       ...state,
       token: action.payload.token,
-      response: action.payload.response,
     };
   }
   default: return state;
