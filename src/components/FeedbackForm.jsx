@@ -4,6 +4,16 @@ import md5 from 'crypto-js/md5';
 import PropTypes from 'prop-types';
 
 class FeedbackForm extends Component {
+  handleButton = () => {
+    const { history } = this.props;
+    history.push('/');
+  };
+
+  handleRanking = () => {
+    const { history } = this.props;
+    history.push('/ranking');
+  };
+
   render() {
     const { score, email, nome, assertions } = this.props;
     const magicNumber = 3;
@@ -22,6 +32,22 @@ class FeedbackForm extends Component {
         </p>
         <p data-testid="feedback-total-score">{ (score) }</p>
         <p data-testid="feedback-total-question">{ (assertions) }</p>
+
+        <button
+          type="button"
+          data-testid="btn-play-again"
+          onClick={ this.handleButton }
+        >
+          Play Again
+        </button>
+
+        <button
+          type="button"
+          data-testid="btn-ranking"
+          onClick={ this.handleRanking }
+        >
+          Ranking
+        </button>
       </div>
     );
   }
@@ -39,6 +65,9 @@ FeedbackForm.propTypes = {
   email: PropTypes.string.isRequired,
   nome: PropTypes.string.isRequired,
   assertions: PropTypes.number.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default connect(mapStateToProps)(FeedbackForm);
