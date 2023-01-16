@@ -22,7 +22,7 @@ class Questions extends React.Component {
   };
 
   async componentDidMount() {
-    await this.questionsAPI();
+    this.questionsAPI();
     const { responseCode, history } = this.props;
     if (responseCode === NUMBER_THREE) {
       history.push('/');
@@ -59,10 +59,23 @@ class Questions extends React.Component {
       history.push('/');
     } else {
       const { index } = this.state;
+
+      /// /////////////////
+      const arrayOriginal = [...questions.results[index].incorrect_answers,
+        questions.results[index].correct_answer];
+
+      for (let i = arrayOriginal.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arrayOriginal[i], arrayOriginal[j]] = [arrayOriginal[j], arrayOriginal[i]];
+      }
+      /// /////////////////
+
+      for (const key of questions.results) {
+      }
+
       this.setState({
         questionsObject: questions.results,
-        answerArray: [...questions.results[index].incorrect_answers,
-          questions.results[index].correct_answer],
+        answerArray: arrayOriginal,
       });
     }
   };
@@ -94,6 +107,7 @@ class Questions extends React.Component {
     const { index, questionsObject } = this.state;
     const { history } = this.props;
     const novoIndex = index + 1;
+
     if (novoIndex === NUMBER_FIVE) {
       history.push('/feedback');
     } else {
@@ -105,22 +119,8 @@ class Questions extends React.Component {
     }
   };
 
-  shuffleArray = (array) => {
-    for (let i = array.length - 1; i > 0; i -= 1) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  };
-
-  random = () => {
-    const { answerArray } = this.state;
-    return this.shuffleArray(answerArray);
-  };
-
   render() {
     const { questionsObject, index, answerArray, seconds, answered } = this.state;
-    this.random();
     return (
       <div>
         <Timer seconds={ seconds } />
