@@ -1,9 +1,10 @@
 import { combineReducers } from 'redux';
 import token from './token';
+import player from './score';
 
 const INITIAL_STATE = {
   email: '',
-  placar: 0,
+  score: 0,
 };
 
 const user = (state = INITIAL_STATE, action) => {
@@ -21,6 +22,7 @@ const user = (state = INITIAL_STATE, action) => {
 const rootReducer = combineReducers({
   email: user,
   token,
+  player,
 });
 
 export default rootReducer;

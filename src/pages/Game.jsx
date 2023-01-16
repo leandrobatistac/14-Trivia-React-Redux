@@ -24,7 +24,7 @@ class Game extends Component {
 const mapStateToProps = (state) => ({
   email: state.email.email,
   nome: state.email.nome,
-  placar: state.email.placar,
+  placar: state.player.score,
 });
 
 Game.propTypes = {
