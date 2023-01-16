@@ -19,6 +19,7 @@ class Questions extends React.Component {
     seconds: 30,
     answered: false,
     score: 0,
+    assertions: 1,
   };
 
   async componentDidMount() {
@@ -77,7 +78,7 @@ class Questions extends React.Component {
 
   handleButton = ({ target }) => {
     const { dispatch } = this.props;
-    const { questionsObject, index, seconds, score } = this.state;
+    const { questionsObject, index, seconds, score, assertions } = this.state;
     const nomeDificuldade = questionsObject[index].difficulty;
     const numeroDificuldade = {
       hard: 3,
@@ -92,7 +93,10 @@ class Questions extends React.Component {
 
     if (!errado) {
       const scoreTotal = score + pontuacaoTotal;
-      this.setState({ score: scoreTotal }, () => dispatch(addScore(scoreTotal)));
+      this.setState(
+        { score: scoreTotal, assertions: assertions + 1 },
+        () => dispatch(addScore(scoreTotal, assertions)),
+      );
     }
 
     this.setState({ answered: true });

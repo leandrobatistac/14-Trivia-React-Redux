@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import FeedbackForm from '../components/FeedbackForm';
 // import PropTypes from 'prop-types';
 
 class Feedback extends Component {
@@ -7,13 +8,10 @@ class Feedback extends Component {
     return (
       <div>
         <p data-testid="feedback-text">FEEDBACK</p>
+        <FeedbackForm />
       </div>
     );
   }
 }
-
-// Feedback.propTypes = {
-//   click: PropTypes.func.isRequired,
-// };
 
 export default connect()(Feedback);

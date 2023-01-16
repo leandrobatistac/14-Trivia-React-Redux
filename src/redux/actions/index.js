@@ -19,9 +19,12 @@ export const sendToken = (token) => ({
   },
 });
 
-export const addScore = (score) => ({
+export const addScore = (score, assertions) => ({
   type: ADD_SCORE,
-  payload: score,
+  payload: {
+    score,
+    assertions,
+  },
 });
 
 // export const countSeconds = (second) => ({
