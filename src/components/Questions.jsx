@@ -12,7 +12,6 @@ class Questions extends React.Component {
     questionsObject: {},
     index: 0,
     answerArray: [],
-    buttonDisabled: false,
     seconds: 30,
   };
 
@@ -86,13 +85,8 @@ class Questions extends React.Component {
   };
 
   render() {
-    const { questionsObject, index, answerArray, buttonDisabled, seconds } = this.state;
+    const { questionsObject, index, answerArray, seconds } = this.state;
     this.random();
-    const logic = () => {if (seconds === 0) {
-      this.setState({
-        buttonDisabled: true,
-      });
-    }}
     return (
       <div>
         <Timer seconds={ seconds } />
@@ -119,7 +113,7 @@ class Questions extends React.Component {
                       (e === questionsObject[index].correct_answer)
                         ? 'correct-answer' : 'wrong-answer'
                     }
-                    disabled={ buttonDisabled }
+                    disabled={ seconds === 0 }
                   >
                     { e }
                   </button>
