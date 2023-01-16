@@ -6,7 +6,6 @@ import Timer from './Timer';
 import Next from './Next';
 import '../questions.css';
 import { addScore } from '../redux/actions';
-import { queryAllByTestId } from '@testing-library/react';
 
 const NUMBER_THREE = 3;
 const NUMBER_FIVE = 5;
@@ -170,6 +169,7 @@ const mapStateToProps = (state) => ({
 
 Questions.propTypes = {
   responseCode: PropTypes.number.isRequired,
+  dispatch: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
