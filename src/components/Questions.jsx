@@ -5,8 +5,12 @@ import { getQuestions } from '../fetchAPI';
 import Timer from './Timer';
 import Next from './Next';
 import '../questions.css';
+import { addScore } from '../redux/actions';
+import { queryAllByTestId } from '@testing-library/react';
 
 const NUMBER_THREE = 3;
+const NUMBER_FIVE = 5;
+const NUMBER_TEN = 10;
 
 class Questions extends React.Component {
   state = {
@@ -15,6 +19,7 @@ class Questions extends React.Component {
     answerArray: [],
     seconds: 30,
     answered: false,
+    score: 0,
   };
 
   async componentDidMount() {
@@ -63,18 +68,42 @@ class Questions extends React.Component {
     }
   };
 
-  handleButton = () => {
+  handleButton = ({ target }) => {
+    const { dispatch } = this.props;
+    const { questionsObject, index, seconds, score } = this.state;
+    const nomeDificuldade = questionsObject[index].difficulty;
+    const numeroDificuldade = {
+      hard: 3,
+      medium: 2,
+      easy: 1,
+    };
+
+    const errado = target.className.includes('wrong-answer');
+    const dificuldadePontos = Number(numeroDificuldade[nomeDificuldade]);
+
+    const pontuacaoTotal = NUMBER_TEN + (seconds * dificuldadePontos);
+
+    if (!errado) {
+      const scoreTotal = score + pontuacaoTotal;
+      this.setState({ score: scoreTotal }, () => dispatch(addScore(scoreTotal)));
+    }
+
     this.setState({ answered: true });
   };
 
   handleNext = () => {
     const { index, questionsObject } = this.state;
+    const { history } = this.props;
     const novoIndex = index + 1;
-    this.setState({
-      answerArray: [...questionsObject[novoIndex].incorrect_answers,
-        questionsObject[novoIndex].correct_answer],
-    });
-    this.setState({ index: novoIndex, answered: false });
+    if (novoIndex === NUMBER_FIVE) {
+      history.push('/feedback');
+    } else {
+      this.setState({
+        answerArray: [...questionsObject[novoIndex].incorrect_answers,
+          questionsObject[novoIndex].correct_answer],
+      });
+      this.setState({ index: novoIndex, answered: false, seconds: 30 });
+    }
   };
 
   shuffleArray = (array) => {

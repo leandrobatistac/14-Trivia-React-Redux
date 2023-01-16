@@ -3,6 +3,7 @@ import './App.css';
 import { Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
 import Main from './pages/Main';
+import Feedback from './pages/Feedback';
 import Configuration from './pages/Configuration';
 
 export default function App() {
@@ -13,6 +14,7 @@ export default function App() {
           <Route exact path="/" component={ Login } />
           <Route exact path="/main" component={ Main } />
           <Route exact path="/configuration" component={ Configuration } />
+          <Route exact path="/feedback" component={ Feedback } />
         </Switch>
       </header>
     </div>
