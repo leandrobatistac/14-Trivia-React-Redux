@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getQuestions } from '../fetchAPI';
 import Timer from './Timer';
+import Next from './Next';
 import '../questions.css';
 
 const NUMBER_THREE = 3;
@@ -13,6 +14,7 @@ class Questions extends React.Component {
     index: 0,
     answerArray: [],
     seconds: 30,
+    answered: false,
   };
 
   async componentDidMount() {
@@ -62,13 +64,17 @@ class Questions extends React.Component {
   };
 
   handleButton = () => {
+    this.setState({ answered: true });
+  };
+
+  handleNext = () => {
     const { index, questionsObject } = this.state;
     const novoIndex = index + 1;
     this.setState({
       answerArray: [...questionsObject[novoIndex].incorrect_answers,
         questionsObject[novoIndex].correct_answer],
     });
-    this.setState({ index: novoIndex });
+    this.setState({ index: novoIndex, answered: false });
   };
 
   shuffleArray = (array) => {
@@ -85,7 +91,7 @@ class Questions extends React.Component {
   };
 
   render() {
-    const { questionsObject, index, answerArray, seconds } = this.state;
+    const { questionsObject, index, answerArray, seconds, answered } = this.state;
     this.random();
     return (
       <div>
@@ -119,6 +125,7 @@ class Questions extends React.Component {
                   </button>
                 ))}
               </div>
+              { answered && <Next click={ this.handleNext } />}
             </div>
           ) }
 
