@@ -60,17 +60,12 @@ class Questions extends React.Component {
     } else {
       const { index } = this.state;
 
-      /// /////////////////
       const arrayOriginal = [...questions.results[index].incorrect_answers,
         questions.results[index].correct_answer];
 
       for (let i = arrayOriginal.length - 1; i > 0; i -= 1) {
         const j = Math.floor(Math.random() * (i + 1));
         [arrayOriginal[i], arrayOriginal[j]] = [arrayOriginal[j], arrayOriginal[i]];
-      }
-      /// /////////////////
-
-      for (const key of questions.results) {
       }
 
       this.setState({
@@ -111,9 +106,16 @@ class Questions extends React.Component {
     if (novoIndex === NUMBER_FIVE) {
       history.push('/feedback');
     } else {
+      const arrayOrdenado = [...questionsObject[novoIndex].incorrect_answers,
+        questionsObject[novoIndex].correct_answer];
+
+      for (let i = arrayOrdenado.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arrayOrdenado[i], arrayOrdenado[j]] = [arrayOrdenado[j], arrayOrdenado[i]];
+      }
+
       this.setState({
-        answerArray: [...questionsObject[novoIndex].incorrect_answers,
-          questionsObject[novoIndex].correct_answer],
+        answerArray: arrayOrdenado,
       });
       this.setState({ index: novoIndex, answered: false, seconds: 30 });
     }
@@ -133,24 +135,26 @@ class Questions extends React.Component {
               <p data-testid="question-text">
                 { questionsObject[index].question }
               </p>
-              <div data-testid="answer-options">
+              <div>
                 { answerArray.map((e, index2) => (
-                  <button
-                    key={ index2 }
-                    type="button"
-                    onClick={ this.handleButton }
-                    data-testid={
-                      (e === questionsObject[index].correct_answer)
-                        ? 'correct-answer' : `wrong-answer-${index2}`
-                    }
-                    className={
-                      (e === questionsObject[index].correct_answer)
-                        ? 'correct-answer' : 'wrong-answer'
-                    }
-                    disabled={ seconds === 0 }
-                  >
-                    { e }
-                  </button>
+                  <div key={ index2 } data-testid="answer-options">
+                    <button
+                      key={ index2 }
+                      type="button"
+                      onClick={ this.handleButton }
+                      data-testid={
+                        (e === questionsObject[index].correct_answer)
+                          ? 'correct-answer' : `wrong-answer-${index2}`
+                      }
+                      className={
+                        (e === questionsObject[index].correct_answer)
+                          ? 'correct-answer' : 'wrong-answer'
+                      }
+                      disabled={ seconds === 0 }
+                    >
+                      { e }
+                    </button>
+                  </div>
                 ))}
               </div>
               { answered && <Next click={ this.handleNext } />}
